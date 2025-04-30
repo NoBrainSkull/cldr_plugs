@@ -230,6 +230,7 @@ defmodule Cldr.Plug.PutLocale do
   @doc false
   def call(conn, options) do
     IO.puts("[DEBUG ON]")
+    IO.inspect(conn.private)
 
     if locale = locale_from_params(conn, options[:from], options) || default(conn, options) do
       Enum.each(options[:apps], fn app ->
@@ -353,6 +354,7 @@ defmodule Cldr.Plug.PutLocale do
   defp fetch_param(conn, :route, _param, options) do
     conn
     |> Map.fetch!(:private)
+    |> IO.inspect()
     |> Map.get(@private_key)
     |> Cldr.validate_locale(options[:cldr])
   end
