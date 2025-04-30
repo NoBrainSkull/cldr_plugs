@@ -229,6 +229,8 @@ defmodule Cldr.Plug.PutLocale do
 
   @doc false
   def call(conn, options) do
+    IO.puts("[DEBUG ON]")
+
     if locale = locale_from_params(conn, options[:from], options) || default(conn, options) do
       Enum.each(options[:apps], fn app ->
         put_locale(app, locale, options)
@@ -285,6 +287,7 @@ defmodule Cldr.Plug.PutLocale do
     Enum.reduce_while(from, nil, fn param, _acc ->
       conn
       |> fetch_param(param, options[:param], options)
+      |> IO.inspect(label: inspect(param))
       |> return_if_valid_locale
     end)
   end
